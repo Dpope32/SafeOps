@@ -22,6 +22,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "scheme": "safeops",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
