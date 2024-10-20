@@ -1,9 +1,9 @@
-// data/initializeDB.js
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('safeops.db');
 
 export const initializeDatabase = () => {
+  console.log('Initializing database...');
   db.transaction((tx) => {
     tx.executeSql(
       `CREATE TABLE IF NOT EXISTS codes (
@@ -12,7 +12,14 @@ export const initializeDatabase = () => {
         title TEXT,
         description TEXT,
         details TEXT
-      );`
+      );`,
+      [],
+      () => {
+        console.log('Table "codes" created or already exists.');
+      },
+      (_, error) => {
+        console.log('Error creating table:', error);
+      }
     );
 
     // Prepare bulk insert
@@ -103,33 +110,40 @@ export const initializeDatabase = () => {
         details:
           'Use proper signage for hazardous materials. Train employees on hazard identification and response procedures.',
       },
-      // Add more as needed
     ];
 
     sampleData.forEach((item) => {
-      tx.executeSql(insertQuery, [
-        item.code,
-        item.title,
-        item.description,
-        item.details,
-      ]);
+      tx.executeSql(
+        insertQuery,
+        [item.code, item.title, item.description, item.details],
+        () => {
+          console.log(`Inserted code ${item.code} successfully.`);
+        },
+        (_, error) => {
+          console.log(`Error inserting code ${item.code}:`, error);
+        }
+      );
     });
   });
 };
 
 export const getCodeDetails = (code, successCallback, errorCallback) => {
+  console.log(`Fetching details for code: ${code}`);
   db.transaction((tx) => {
     tx.executeSql(
       'SELECT * FROM codes WHERE code = ?;',
       [code],
       (_, { rows }) => {
         if (rows.length > 0) {
+          console.log('Code found:', rows._array[0]);
           successCallback(rows._array[0]);
         } else {
+          console.log('Code not found.');
           errorCallback('Code not found.');
         }
       },
       (_, error) => {
+        console.log('Error fetching code details:', error);
         errorCallback(error.message);
       }
     );

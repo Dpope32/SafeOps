@@ -1,5 +1,5 @@
 // screens/HomeScreen.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Alert,
@@ -10,16 +10,21 @@ import {
 import { Title, useTheme } from 'react-native-paper';
 import CodeInput from '../../components/CodeInput';
 import AnimatedButton from '../../components/AnimatedButton';
-import { getCodeDetails } from '../../data/initializeDB';
+import { getCodeDetails, initializeDatabase } from '../../data/initializeDB';  // Ensure this import includes initializeDatabase
 import useStore from '../../store/useStore';
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient'; // Reintroduced LinearGradient
+import { LinearGradient } from 'expo-linear-gradient'; 
 
 const HomeScreen = () => {
   const [code, setCode] = useState('');
   const theme = useTheme();
   const router = useRouter();
   const addToSearchHistory = useStore((state) => state.addToSearchHistory);
+
+  // Ensure database is initialized when the component mounts
+  useEffect(() => {
+    initializeDatabase();
+  }, []);
 
   const handleLookup = () => {
     if (code.length !== 4) {
@@ -31,7 +36,6 @@ const HomeScreen = () => {
       code,
       (data) => {
         addToSearchHistory(data);
-        // Pass only the code as a query parameter
         router.push(`/details?code=${data.code}`);
       },
       (error) => {
@@ -68,6 +72,7 @@ const HomeScreen = () => {
     </TouchableWithoutFeedback>
   );
 };
+
 
 const styles = StyleSheet.create({
   gradient: {

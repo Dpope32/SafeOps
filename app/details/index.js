@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { Text, Card, Button, useTheme, IconButton } from 'react-native-paper';
 import useStore from '../../store/useStore';
-import { useRouter, useSearchParams } from 'expo-router';
+import { useRouter, useGlobalSearchParams } from 'expo-router';
 import { getCodeDetails } from '../../data/initializeDB';
 
 const DetailsScreen = () => {
-  const { code } = useSearchParams();
+  const { code } = useGlobalSearchParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
