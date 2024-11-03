@@ -1,4 +1,3 @@
-// screens/HomeScreen.js
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -10,49 +9,91 @@ import {
 import { Title, useTheme } from 'react-native-paper';
 import CodeInput from '../../components/CodeInput';
 import AnimatedButton from '../../components/AnimatedButton';
-import { getCodeDetails, initializeDatabase } from '../../data/initializeDB';  // Ensure this import includes initializeDatabase
+import SimpleHeader from './SimpleHeader';
+import { getCodeDetails, initializeDatabase, getAllCodes } from '../../database';
 import useStore from '../../store/useStore';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient'; 
 
 const HomeScreen = () => {
   const [code, setCode] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [dbInitialized, setDbInitialized] = useState(false);
   const theme = useTheme();
   const router = useRouter();
   const addToSearchHistory = useStore((state) => state.addToSearchHistory);
 
-  // Ensure database is initialized when the component mounts
   useEffect(() => {
-    initializeDatabase();
+    const initDB = async () => {
+      console.log('Initializing database...');
+      await initializeDatabase();
+      setDbInitialized(true);
+      console.log('Database initialization complete.');
+    };
+    initDB();
   }, []);
 
-  const handleLookup = () => {
-    if (code.length !== 4) {
-      Alert.alert('Invalid Code', 'Please enter a 4-digit code.');
+  const handleLookup = async () => {
+    if (!dbInitialized) {
+      Alert.alert('Loading', 'Database is still initializing. Please try again shortly.');
       return;
     }
-
-    getCodeDetails(
-      code,
-      (data) => {
-        addToSearchHistory(data);
-        router.push(`/details?code=${data.code}`);
-      },
-      (error) => {
-        Alert.alert('Error', error);
+    console.log('Handle Lookup pressed with code:', code);
+    if (code.length < 2 || code.length > 4) {
+      Alert.alert('Invalid Code', 'Please enter a code between 2-4 characters.');
+      return;
+    }
+  
+    try {
+      const result = await getCodeDetails(code);
+      if (result) {
+        addToSearchHistory(result);
+        router.push(`/details?code=${result.code}`);
+      } else {
+        Alert.alert('Error', 'Code not found');
       }
-    );
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
+  
+  const filterSuggestions = async (text) => {
+    if (text.length < 1) {
+      setSuggestions([]);
+      return;
+    }
+    
+    const allCodes = await getAllCodes();
+    const filtered = allCodes
+      .filter(item => 
+        item.code.toLowerCase().includes(text.toLowerCase()) ||
+        item.description.toLowerCase().includes(text.toLowerCase())
+      )
+      .slice(0, 5); // Limit to 5 suggestions
+    
+    setSuggestions(filtered);
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LinearGradient
-        colors={['#4c669f', '#3b5998', '#192f6a']} // Reintroduced gradient
+        colors={['#4c669f', '#3b5998', '#192f6a']}
         style={styles.gradient}
       >
         <View style={styles.container}>
-          <Title style={styles.title}>SafeOps</Title>
-          <CodeInput code={code} setCode={setCode} />
+          <SimpleHeader />
+          <CodeInput 
+            code={code} 
+            setCode={(text) => {
+              setCode(text);
+              filterSuggestions(text);
+            }}
+            suggestions={suggestions}
+            onSuggestionPress={(item) => {
+              setCode(item.code);
+              handleLookup(item.code);
+            }}
+          />
           <AnimatedButton onPress={handleLookup} title="Lookup" />
           <View style={styles.navigationButtons}>
             <AnimatedButton
@@ -64,15 +105,12 @@ const HomeScreen = () => {
               title="Favorites"
             />
           </View>
-          <View style={styles.footer}>
-            {/* Add any footer content here if needed */}
-          </View>
+          <View style={styles.footer} />
         </View>
       </LinearGradient>
     </TouchableWithoutFeedback>
   );
 };
-
 
 const styles = StyleSheet.create({
   gradient: {
@@ -82,20 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.0)', // Transparent to show gradient
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 10,
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#ffffff',
-  },
-  subtitle: {
-    textAlign: 'center',
-    marginBottom: 30,
-    fontSize: 18,
-    color: '#f0f0f0',
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
   },
   navigationButtons: {
     flexDirection: 'row',
