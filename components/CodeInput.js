@@ -10,11 +10,10 @@ const CodeInput = ({ code, setCode, suggestions = [], onSuggestionPress }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleChangeText = (text) => {
-    // Convert to uppercase and remove any invalid characters
     const cleanedText = text.toUpperCase().replace(/[^A-Z0-9/]/g, '');
     if (cleanedText.length <= 4) {
       setCode(cleanedText);
-      Haptics.selectionAsync(); // Subtle haptic feedback
+      Haptics.selectionAsync();
     }
   };
 
@@ -50,15 +49,15 @@ const CodeInput = ({ code, setCode, suggestions = [], onSuggestionPress }) => {
         style={styles.input}
         autoCapitalize="characters"
         placeholder="Enter Code"
-        placeholderTextColor="#999" // Improved color for better visibility
+        placeholderTextColor="#999"
         maxLength={4}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         autoComplete="off"
         autoCorrect={false}
         mode="outlined"
-        outlineColor={theme.colors.primary}
-        activeOutlineColor={theme.colors.accent}
+        outlineColor="#00008B" 
+        activeOutlineColor="#00008B"
         theme={{
           roundness: 12,
           colors: {
@@ -82,7 +81,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    height: 60,
+    height: 70,
+    padding: 10,
     color: '#fff',
   },
   inputContent: {
@@ -95,10 +95,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   suggestionItem: {
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingVertical: 10,
     marginHorizontal: 5,
     borderRadius: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',

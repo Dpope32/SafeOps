@@ -5,28 +5,35 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'transparent',
     flexGrow: 1,
-    marginTop: 20, // Added margin to bring the screen down
+    marginTop: 20,
   },
   gradient: {
-    flex: 1, // Ensuring the gradient covers the full screen
+    flex: 1,
   },
   title: {
     textAlign: 'center',
     marginBottom: 20,
-    fontSize: 24, // Increased font size for title
-    color: '#fff', // Changed color for better visibility
+    fontSize: 24,
+    color: '#fff',
   },
   noFavorites: {
     textAlign: 'center',
     marginTop: 50,
     fontSize: 16,
-    color: '#fff', // Changed color to white for better visibility
+    color: '#fff',
   },
   listItemTitle: {
-    color: '#fff', // Ensuring title text is white
+    color: '#fff',
   },
   listItemDescription: {
-    color: '#fff', // Ensuring description text is white
+    color: '#fff',
+  },
+  // Additional styles for better input experience
+  inputContainer: {
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
 });
 

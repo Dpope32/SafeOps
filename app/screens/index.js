@@ -48,7 +48,7 @@ const HomeScreen = () => {
       const result = await getCodeDetails(code);
       if (result) {
         addToSearchHistory(result);
-        router.push(`/details?code=${result.code}`);
+        router.push(`/details?code=${encodeURIComponent(result.code)}`);
       } else {
         Alert.alert('Error', 'Code not found');
       }
@@ -82,28 +82,30 @@ const HomeScreen = () => {
       >
         <View style={styles.container}>
           <SimpleHeader />
-          <CodeInput 
-            code={code} 
-            setCode={(text) => {
-              setCode(text);
-              filterSuggestions(text);
-            }}
-            suggestions={suggestions}
-            onSuggestionPress={(item) => {
-              setCode(item.code);
-              handleLookup(item.code);
-            }}
-          />
-          <AnimatedButton onPress={handleLookup} title="Lookup" />
-          <View style={styles.navigationButtons}>
-            <AnimatedButton
-              onPress={() => router.push('/history')}
-              title="History"
+          <View style={styles.contentBox}>
+            <CodeInput 
+              code={code} 
+              setCode={(text) => {
+                setCode(text);
+                filterSuggestions(text);
+              }}
+              suggestions={suggestions}
+              onSuggestionPress={(item) => {
+                setCode(item.code);
+                handleLookup();
+              }}
             />
-            <AnimatedButton
-              onPress={() => router.push('/favorites')}
-              title="Favorites"
-            />
+            <AnimatedButton onPress={handleLookup} title="Lookup" />
+            <View style={styles.navigationButtons}>
+              <AnimatedButton
+                onPress={() => router.push('/history')}
+                title="History"
+              />
+              <AnimatedButton
+                onPress={() => router.push('/favorites')}
+                title="Favorites"
+              />
+            </View>
           </View>
           <View style={styles.footer} />
         </View>
@@ -120,11 +122,28 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    // Removed the transparent background
+    // backgroundColor: 'rgba(0, 0, 0, 0.0)',
+  },
+  contentBox: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent dark background
+    borderRadius: 15,
+    padding: 20,
+    marginHorizontal: 10,
+    // Shadows for iOS
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    // Elevation for Android
+    elevation: 8,
   },
   navigationButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginTop: 20,
   },
   footer: {

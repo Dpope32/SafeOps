@@ -5,7 +5,7 @@ import { Text, Title, List } from 'react-native-paper';
 import useStore from '../../store/useStore';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient'; // Importing LinearGradient
-import styles from './styles'; // Importing styles from styles.ts
+import styles from '../styles'; // Importing styles from styles.ts
 
 const FavoritesScreen = () => {
   const favorites = useStore((state) => state.favorites);
