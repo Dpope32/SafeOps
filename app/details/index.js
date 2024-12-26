@@ -5,6 +5,7 @@ import { Text, Card, Button, useTheme, IconButton } from 'react-native-paper';
 import useStore from '../../store/useStore';
 import { useRouter, useSearchParams } from 'expo-router';
 import { getCodeDetails } from '../../data/initializeDB';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const DetailsScreen = () => {
   const { code } = useSearchParams();
@@ -36,20 +37,30 @@ const DetailsScreen = () => {
 
   if (loading) {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </ScrollView>
+      <LinearGradient
+        colors={['#4c669f', '#3b5998', '#192f6a']}
+        style={styles.gradient}
+      >
+        <ScrollView contentContainerStyle={styles.container}>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+        </ScrollView>
+      </LinearGradient>
     );
   }
 
   if (!data) {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={{ color: theme.colors.text }}>No data available.</Text>
-        <Button onPress={() => router.back()} color={theme.colors.primary}>
-          Back
-        </Button>
-      </ScrollView>
+      <LinearGradient
+        colors={['#4c669f', '#3b5998', '#192f6a']}
+        style={styles.gradient}
+      >
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={{ color: theme.colors.text }}>No data available.</Text>
+          <Button onPress={() => router.back()} color={theme.colors.primary}>
+            Back
+          </Button>
+        </ScrollView>
+      </LinearGradient>
     );
   }
 
@@ -60,36 +71,44 @@ const DetailsScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
-        <Card.Title
-          title={data.title}
-          subtitle={`Code: ${data.code}`}
-          right={(props) => (
-            <IconButton
-              {...props}
-              icon={isFavorited ? 'star' : 'star-outline'}
-              color={isFavorited ? '#f1c40f' : '#555'}
-              onPress={handleToggleFavorite}
-              accessibilityLabel="toggle favorite"
-            />
-          )}
-        />
-        <Card.Content>
-          <Text style={[styles.description, { color: theme.colors.text }]}>{data.description}</Text>
-          <Text style={[styles.details, { color: theme.colors.text }]}>{data.details}</Text>
-        </Card.Content>
-        <Card.Actions>
-          <Button onPress={() => router.back()} color={theme.colors.primary}>
-            Back
-          </Button>
-        </Card.Actions>
-      </Card>
-    </ScrollView>
+    <LinearGradient
+      colors={['#4c669f', '#3b5998', '#192f6a']}
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+          <Card.Title
+            title={data.title}
+            subtitle={`Code: ${data.code}`}
+            right={(props) => (
+              <IconButton
+                {...props}
+                icon={isFavorited ? 'star' : 'star-outline'}
+                color={isFavorited ? '#f1c40f' : '#555'}
+                onPress={handleToggleFavorite}
+                accessibilityLabel="toggle favorite"
+              />
+            )}
+          />
+          <Card.Content>
+            <Text style={[styles.description, { color: theme.colors.text }]}>{data.description}</Text>
+            <Text style={[styles.details, { color: theme.colors.text }]}>{data.details}</Text>
+          </Card.Content>
+          <Card.Actions>
+            <Button onPress={() => router.back()} color={theme.colors.primary}>
+              Back
+            </Button>
+          </Card.Actions>
+        </Card>
+      </ScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
     padding: 20,
     backgroundColor: 'transparent',
