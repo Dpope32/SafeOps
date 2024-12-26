@@ -35,6 +35,7 @@ describe('HomeScreen', () => {
 
   it('handles valid code lookup', async () => {
     getCodeDetails.mockImplementation((code, success, error) => {
+      console.log(`getCodeDetails called with code: ${code}`); // Log the code being looked up
       success({ code: '1234', title: 'Test Title', description: 'Test Description', details: 'Test Details' });
     });
 

@@ -1,14 +1,13 @@
-// screens/details/DetailsScreen.js
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { Text, Card, Button, useTheme, IconButton } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient'; // Importing LinearGradient
 import useStore from '../../store/useStore';
-import { useRouter, useSearchParams } from 'expo-router';
-import { getCodeDetails } from '../../data/initializeDB';
-import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter, useGlobalSearchParams } from 'expo-router';
+import { getCodeDetails } from '../../database';
 
 const DetailsScreen = () => {
-  const { code } = useSearchParams();
+  const params = useGlobalSearchParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
@@ -17,23 +16,31 @@ const DetailsScreen = () => {
   const toggleFavorite = useStore((state) => state.toggleFavorite);
 
   useEffect(() => {
-    if (code) {
-      getCodeDetails(
-        code,
-        (fetchedData) => {
-          setData(fetchedData);
+    const fetchData = async () => {
+      try {
+        if (params.data) {
+          setData(JSON.parse(params.data));
           setLoading(false);
-        },
-        (error) => {
-          Alert.alert('Error', error);
+        } else if (params.code) {
+          const fetchedData = await getCodeDetails(params.code);
+          if (fetchedData) {
+            setData(fetchedData);
+          } else {
+            Alert.alert('Error', 'Code not found');
+          }
+          setLoading(false);
+        } else {
+          Alert.alert('Error', 'No code provided.');
           setLoading(false);
         }
-      );
-    } else {
-      Alert.alert('Error', 'No code provided.');
-      setLoading(false);
-    }
-  }, [code]);
+      } catch (error) {
+        Alert.alert('Error', error.message || 'An unexpected error occurred.');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [params]);
 
   if (loading) {
     return (
@@ -72,7 +79,7 @@ const DetailsScreen = () => {
 
   return (
     <LinearGradient
-      colors={['#4c669f', '#3b5998', '#192f6a']}
+      colors={['#4c669f', '#3b5998', '#192f6a']} // Example gradient colors
       style={styles.gradient}
     >
       <ScrollView contentContainerStyle={styles.container}>
