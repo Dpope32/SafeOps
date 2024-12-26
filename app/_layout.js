@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { Provider as PaperProvider } from 'react-native-paper';
 import useStore from '../store/useStore';
 import { MD3DarkTheme, MD3LightTheme, configureFonts } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -72,10 +72,11 @@ export default function Layout() {
     },
   };
 
+
   const theme = darkMode
     ? { 
         ...MD3DarkTheme, 
-        fonts: configureFonts({config: fontConfig}), 
+        fonts: configureFonts({ config: fontConfig }),
         colors: { 
           ...MD3DarkTheme.colors, 
           primary: '#3b82f6',
@@ -84,7 +85,7 @@ export default function Layout() {
       }
     : { 
         ...MD3LightTheme, 
-        fonts: configureFonts({config: fontConfig}), 
+        fonts: configureFonts({ config: fontConfig }),
         colors: { 
           ...MD3LightTheme.colors, 
           primary: '#3b82f6',
@@ -94,7 +95,11 @@ export default function Layout() {
 
   return (
     <View style={{ flex: 1 }}>
-      <PaperProvider theme={theme}>
+      <StatusBar
+        backgroundColor="#1A1D1E"
+        barStyle={'light-content'}
+      />
+      <PaperProvider theme={MD3DarkTheme}>
         <Stack screenOptions={{ headerShown: false }} />
       </PaperProvider>
     </View>

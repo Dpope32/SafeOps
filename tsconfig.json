@@ -1,4 +1,10 @@
 {
+  "include": [
+    "app/**/*",
+    "components/**/*",
+    "store/**/*",
+    "database/**/*"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",

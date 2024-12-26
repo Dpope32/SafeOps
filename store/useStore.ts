@@ -27,8 +27,8 @@ const useStore = create<StoreState>()(
       searchHistory: [],
       favorites: [],
       username: null,
-      theme: 'dark',
-      addToSearchHistory: (codeData) => {
+      theme: 'light',
+      addToSearchHistory: (codeData: CodeData) => {
         const updatedHistory = [
           codeData,
           ...get().searchHistory.filter(item => item.code !== codeData.code)
