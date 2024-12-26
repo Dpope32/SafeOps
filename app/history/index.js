@@ -33,7 +33,7 @@ const HistoryScreen = () => {
                 description={`Code: ${item.code}`}
                 left={props => (
                   <MaterialIcons 
-                    name="history"  // or "star" for favorites
+                    name="history" 
                     size={24} 
                     color="rgba(59, 130, 246, 0.8)"
                     style={{ marginLeft: 8 }}

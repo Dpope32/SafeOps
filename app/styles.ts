@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flex: 1,
-    padding: 20,
+    padding: 12,
   },
   title: {
     fontSize: 28,
@@ -26,13 +26,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   listItemContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.00)',
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
     padding: 16,
     marginBottom: 12,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'rgba(59, 130, 246, 0.3)',
-    elevation: 6,
   },
   listItemTitle: {
     fontSize: 18,
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   button: {
-    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+    backgroundColor: 'rgba(59, 130, 246, 0.05)',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

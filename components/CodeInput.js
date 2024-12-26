@@ -53,11 +53,17 @@ const CodeInput = ({ code, setCode, suggestions = [], onSuggestionPress }) => {
 
     return (
       <Surface style={styles.suggestionsContainer}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled" // Ensures taps are registered
-        >
+        <View style={styles.scrollViewWrapper}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled={true}
+            scrollEventThrottle={16}
+            decelerationRate="normal"
+            contentContainerStyle={styles.suggestionsScrollContent}
+            style={styles.scrollView}
+          >
           {suggestions.map((suggestion, index) => (
             <TouchableOpacity
               key={index}
@@ -71,7 +77,8 @@ const CodeInput = ({ code, setCode, suggestions = [], onSuggestionPress }) => {
               </View>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+          </ScrollView>
+        </View>
       </Surface>
     );
   };
@@ -131,7 +138,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: SCREEN_HEIGHT * 0.024,
     textAlign: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
     height: SCREEN_HEIGHT * 0.07,
     borderRadius: SCREEN_HEIGHT * 0.03,
     borderTopLeftRadius: SCREEN_HEIGHT * 0.03,
@@ -152,7 +159,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     maxHeight: SCREEN_HEIGHT * 0.25,
-    padding: SCREEN_HEIGHT * 0.012,
     borderRadius: SCREEN_HEIGHT * 0.02,
     backgroundColor: 'rgba(22, 24, 29, 0.98)',
     borderWidth: 1,
@@ -164,6 +170,18 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     zIndex: 1000,
   },
+  scrollViewWrapper: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  suggestionsScrollContent: {
+    paddingHorizontal: SCREEN_HEIGHT * 0.012,
+    paddingVertical: SCREEN_HEIGHT * 0.012,
+    flexDirection: 'row',
+  },
   suggestionItem: {
     marginRight: SCREEN_HEIGHT * 0.012,
     backgroundColor: 'rgba(255, 255, 255, 0.12)',
@@ -171,7 +189,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(59, 130, 246, 0.4)',
     overflow: 'hidden',
-    minWidth: SCREEN_HEIGHT * 0.2,
+    width: SCREEN_HEIGHT * 0.25,
   },
   suggestionContent: {
     padding: SCREEN_HEIGHT * 0.012,
