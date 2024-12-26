@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "SafeOps",
-    "slug": "SafeOps",
+    "name": "Clark",
+    "scheme": "clark",
+    "slug": "Clark",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "sdkVersion": "51.0.0",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,19 +19,25 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.clark.clark"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "safeops",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ],
     "extra": {
       "router": {
         "origin": false
       }
-    }
+    },
+    "fonts": [
+      {
+        "asset": "@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"
+      }
+    ]
   }
 }

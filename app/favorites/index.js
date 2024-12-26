@@ -1,11 +1,10 @@
-// app/screens/favorites/index.js
 import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Title, List } from 'react-native-paper';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, List, IconButton } from 'react-native-paper';
 import useStore from '../../store/useStore';
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient'; // Importing LinearGradient
-import styles from '../styles'; // Importing styles from styles.ts
+import SimpleHeader from '../../components/SimpleHeader';
+import styles from '../styles';
 
 const FavoritesScreen = () => {
   const favorites = useStore((state) => state.favorites);
@@ -19,30 +18,34 @@ const FavoritesScreen = () => {
   };
 
   return (
-    <LinearGradient
-      colors={['#4c669f', '#3b5998', '#192f6a']} // Applying the linear gradient
-      style={styles.gradient}
-    >
-      <ScrollView contentContainerStyle={styles.container}>
-        <Title style={styles.title}>Favorites</Title>
+    <View style={styles.container}>
+      <SimpleHeader title="Favorites" />
+      
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         {favorites.length === 0 ? (
-          <Text style={styles.noFavorites}>No favorites added.</Text>
+          <Text style={styles.noFavorites}>No favorites added yet.</Text>
         ) : (
           favorites.map((item) => (
             <TouchableOpacity key={item.code} onPress={() => handlePress(item)}>
               <List.Item
                 title={item.title}
                 description={`Code: ${item.code}`}
-                left={(props) => <List.Icon {...props} icon="star" />}
-                accessibilityLabel={`favorite-item-${item.code}`}
-                titleStyle={styles.listItemTitle} // Adding title style
-                descriptionStyle={styles.listItemDescription} // Adding description style
+                left={props => (
+                  <IconButton
+                    icon="star"
+                    size={24}
+                    iconColor="rgba(59, 130, 246, 0.8)"
+                  />
+                )}
+                style={styles.listItemContainer}
+                titleStyle={styles.listItemTitle}
+                descriptionStyle={styles.listItemDescription}
               />
             </TouchableOpacity>
           ))
         )}
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
 };
 

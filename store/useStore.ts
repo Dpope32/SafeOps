@@ -1,19 +1,24 @@
+// useStore.ts
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface CodeData {
+export interface CodeData {
   code: string;
   title: string;
   description: string;
   details: string;
 }
 
-interface StoreState {
+export interface StoreState {
   searchHistory: CodeData[];
   favorites: CodeData[];
+  username: string | null;
+  theme: 'light' | 'dark';
   addToSearchHistory: (codeData: CodeData) => void;
   toggleFavorite: (codeData: CodeData) => void;
+  setUsername: (name: string) => void;
+  setTheme: (theme: 'light' | 'dark') => void;
 }
 
 const useStore = create<StoreState>()(
@@ -21,6 +26,8 @@ const useStore = create<StoreState>()(
     (set, get) => ({
       searchHistory: [],
       favorites: [],
+      username: null,
+      theme: 'dark',
       addToSearchHistory: (codeData) => {
         const updatedHistory = [
           codeData,
@@ -36,9 +43,11 @@ const useStore = create<StoreState>()(
           set({ favorites: [codeData, ...get().favorites] });
         }
       },
+      setUsername: (name) => set({ username: name }),
+      setTheme: (theme) => set({ theme }),
     }),
     {
-      name: 'safeops-storage',
+      name: 'clark-storage',
       storage: createJSONStorage(() => AsyncStorage),
       version: 1,
     }

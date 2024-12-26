@@ -1,7 +1,7 @@
 // database/index.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CODES_KEY = 'safeops_codes';
+const CODES_KEY = 'clark_codes';
 
 export const initializeDatabase = async () => {
   try {

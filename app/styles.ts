@@ -1,39 +1,77 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: 'transparent',
-    flexGrow: 1,
-    marginTop: 20,
-  },
   gradient: {
     flex: 1,
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#1A1D1E',
+  },
+  scrollContent: {
+    flex: 1,
+    padding: 20,
+  },
   title: {
-    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: 'bold',
     marginBottom: 20,
-    fontSize: 24,
-    color: '#fff',
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
   noFavorites: {
-    textAlign: 'center',
+    fontSize: 18,
     marginTop: 50,
-    fontSize: 16,
-    color: '#fff',
+    color: 'rgba(255, 255, 255, 0.6)',
+    textAlign: 'center',
+  },
+  listItemContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.00)',
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(59, 130, 246, 0.3)',
+    elevation: 6,
   },
   listItemTitle: {
-    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
   listItemDescription: {
-    color: '#fff',
+    fontSize: 15,
+    color: 'rgba(255, 255, 255, 0.7)',
+    marginTop: 6,
   },
-  // Additional styles for better input experience
   inputContainer: {
-    marginVertical: 10,
-    padding: 10,
-    borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.025)',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(59, 130, 246, 0.3)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    marginVertical: 12,
+  },
+  input: {
+    fontSize: 16,
+    color: '#FFFFFF',
+  },
+  button: {
+    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(59, 130, 246, 0.3)',
+  },
+  buttonText: {
+    color: '#60A5FA',
+    fontSize: 16,
+    fontWeight: '600',
+    letterSpacing: 0.3,
   },
 });
 
